@@ -5,7 +5,7 @@ williamyeh.ganglia-monitor for Ansible Galaxy
 
 ## Summary
 
-Role name in Ansible Galaxy: **[williamyeh.ganglia-monitor](https://galaxy.ansible.com/list#/roles/XXXX)**
+Role name in Ansible Galaxy: **[williamyeh.ganglia-monitor](https://galaxy.ansible.com/list#/roles/3215)**
 
 This Ansible role has the following features for [Ganglia Monitoring Daemon](http://ganglia.sourceforge.net/):
 
