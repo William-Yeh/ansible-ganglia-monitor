@@ -1,0 +1,24 @@
+- hosts: all
+  tasks:
+    - include: 'tasks/main.yml'
+  handlers:
+    - include: 'handlers/main.yml'
+  vars_files:
+    - 'defaults/main.yml'
+
+  vars:
+
+    #ganglia_monitor_conf_copy: test-files/gmond-deaf.conf
+
+    ganglia_monitor_conf_template: test-files/gmond.conf.j2
+
+    ganglia_pymodules:
+      - tcpconn
+      - diskstat
+      - vm_stats
+
+    ganglia_extra_pymodules:
+      - name: iface
+        dir:  test-files
+        description: metrics for all interfaces and counters of the /proc/net/dev file.
+        source: https://github.com/ganglia/gmond_python_modules/tree/master/network/iface

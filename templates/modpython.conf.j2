@@ -1,0 +1,17 @@
+/*
+  params - path to the directory where mod_python
+           should look for python metric modules
+
+  the "pyconf" files in the include directory below
+  will be scanned for configurations for those modules
+*/
+
+modules {
+  module {
+    name   = "python_module"
+    path   = "/usr/lib/ganglia/modpython.so"
+    params = "{{ ganglia_monitor_pymodules_src }}"
+  }
+}
+
+include ('{{ ganglia_monitor_extra_conf_path }}/*.pyconf')

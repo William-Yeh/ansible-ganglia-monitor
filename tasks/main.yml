@@ -1,0 +1,43 @@
+---
+# file: tasks/main.yml
+# Top-level installer for Ganglia Monitoring Daemon.
+#
+# @see # @see http://ganglia.sourceforge.net/
+#
+
+- name: delegate to APT system for installation
+  include: use-apt.yml
+  when: ansible_pkg_mgr == "apt"
+
+#- name: delegate to YUM system for installation
+#  include: use-yum.yml
+#  when: ansible_pkg_mgr == "yum"
+
+
+##
+# default conf
+#
+
+- name: copy new "gmond.conf" verbatim from main playbook's
+  sudo: True
+  copy: src={{ playbook_dir }}/{{ ganglia_monitor_conf_copy }}  dest={{ ganglia_monitor_conf_path }}/gmond.conf
+  when: ganglia_monitor_conf_copy is defined
+  notify:
+    - restart ganglia-monitor
+
+- name: copy (from template) new "gmond.conf" from main playbook's
+  sudo: True
+  template: src={{ playbook_dir }}/{{ ganglia_monitor_conf_template }}  dest={{ ganglia_monitor_conf_path }}/gmond.conf
+  when: ganglia_monitor_conf_template is defined
+  notify:
+    - restart ganglia-monitor
+
+
+
+###
+# python modules
+#
+
+- name: install python modules
+  include: install-pymodules.yml
+  when: ganglia_pymodules is defined or ganglia_extra_pymodules is defined

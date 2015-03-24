@@ -1,0 +1,17 @@
+---
+
+#
+# variables needed to be defined in user's playbook
+#
+
+
+#
+# user-configurable defaults
+#
+
+ganglia_monitor_conf_path: /etc/ganglia
+
+ganglia_monitor_extra_conf_path: /etc/ganglia/conf.d
+
+ganglia_monitor_pymodules_src: /usr/lib/ganglia/python_modules
+#ganglia_monitor_pymodules_src: /etc/ganglia/python_modules

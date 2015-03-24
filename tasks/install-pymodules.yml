@@ -1,0 +1,68 @@
+---
+# file: tasks/install-pymodules.yml
+# Installer for python modules for Ganglia Monitoring Daemon.
+#
+# @see # @see http://ganglia.sourceforge.net/
+#
+
+
+- name: mkdir for python metric modules
+  sudo: True
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - "{{ ganglia_monitor_extra_conf_path }}"
+    - "{{ ganglia_monitor_pymodules_src }}"
+
+
+- name: enable python metric modules, if any
+  sudo: True
+  template: src=../templates/modpython.conf.j2  dest={{ ganglia_monitor_extra_conf_path }}/modpython.conf
+  notify:
+    - restart ganglia-monitor
+
+
+##
+# official python modules
+#
+
+- name: copy official python metric modules - conf files
+  sudo: True
+  copy: src=../files/pymodules/{{ item }}.pyconf  dest={{ ganglia_monitor_extra_conf_path }}
+  with_items: ganglia_pymodules | default([])
+  notify:
+    - restart ganglia-monitor
+
+- name: copy official python metric modules - py sources
+  sudo: True
+  copy: src=../files/pymodules/{{ item }}.py  dest={{ ganglia_monitor_pymodules_src }}
+  with_items: ganglia_pymodules | default([])
+  notify:
+    - restart ganglia-monitor
+
+- name: copy official python metric modules - remaining py sources
+  sudo: True
+  copy: src=../files/pymodules/{{ item }}  dest={{ ganglia_monitor_pymodules_src }}
+  with_items:
+    - DBUtil.py
+  when: ganglia_pymodules is defined
+
+
+##
+# user supplied python modules
+#
+
+- name: copy user supplied python metric modules - conf files
+  sudo: True
+  copy: src={{ playbook_dir }}/{{ item.dir }}/{{ item.name }}.pyconf  dest={{ ganglia_monitor_extra_conf_path }}
+  with_items: ganglia_extra_pymodules | default([])
+  notify:
+    - restart ganglia-monitor
+
+- name: copy user supplied python metric modules - py sources
+  sudo: True
+  copy: src={{ playbook_dir }}/{{ item.dir }}/{{ item.name }}.py  dest={{ ganglia_monitor_pymodules_src }}
+  with_items: ganglia_extra_pymodules | default([])
+  notify:
+    - restart ganglia-monitor

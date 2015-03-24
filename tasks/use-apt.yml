@@ -1,0 +1,16 @@
+---
+# file: tasks/use-apt.yml
+#
+# Configure ganglia-monitor from APT repository.  
+#
+# @see http://ganglia.sourceforge.net/
+#
+
+- name: install ganglia-monitor
+  sudo: True
+  apt: name=ganglia-monitor  update_cache=yes  state=present force=yes
+
+
+- name: set INIT status (SysV style)
+  sudo: True
+  shell: update-rc.d ganglia-monitor defaults
