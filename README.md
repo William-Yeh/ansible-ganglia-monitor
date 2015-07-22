@@ -155,4 +155,4 @@ Some Python modules may require runtime libs or executables pre-installed.  For 
 
 ## License
 
-Licensed under the Apache License V2.0. See the [LICENSE file](LICENSE) for details.
+Licensed under the MIT License. See the [LICENSE file](LICENSE) for details.
